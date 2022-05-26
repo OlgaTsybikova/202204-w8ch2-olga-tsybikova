@@ -1,3 +1,5 @@
+import { arrayBuffer } from "stream/consumers";
+
 type RobotType = "Cleaner" | "Waiter" | "Developer";
 interface IRobot {
   name: string;
@@ -8,7 +10,7 @@ interface IRobot {
 }
 
 class Robot implements IRobot {
-  battery;
+  battery: number;
 
   constructor(
     public name: string,
@@ -16,10 +18,23 @@ class Robot implements IRobot {
     private message: string
   ) {
     this.battery = 100;
+    this.name = this.generateName();
   }
   reset() {}
   work() {
     console.log(this.message);
+  }
+  generateName(): string {
+    let name: string = "";
+    const letters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    for (let i = 0; i < 4; i++) {
+      if (i < 3) {
+        name += letters.charAt(Math.floor(Math.random() * letters.length));
+      }
+      name += Math.floor(Math.random() * (99 - 10) + 10);
+    }
+    return name;
   }
 }
 export class Cleaner extends Robot {
